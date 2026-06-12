@@ -70,3 +70,40 @@ TIME: 21:15
 - Ah, bash script automatically ran on WSL, probably caused connectivity error
 - Ok, let's do everything in WSL, probably easier than on windows.
   1. Commit, clone again in WSL
+- Ok, we're back, that was quick. Let's see if make works natively now
+- First install VSCode python extensions again
+- Failed to create venv, do it manually
+- Ok, getting there, run make again: Success!
+- Yes test script seems to work, check the curls
+- Curls work, too
+- Ok, now let's see about the 500s
+  - Successful delete should return 204 No Content, returns 500 now. Let's not change it though so we can see it on the dashboard, too.
+
+TIME: 21:27
+
+## Prometheus
+
+- Know +/- how it works but never worked with, so let's take 10 minutes to skim documentation for Python implementations
+- Found https://github.com/prometheus/client_python, let's read
+  - We'll have to add package "prometheus-client"
+  - Quickstart uses decorator. Probably not enough if we need to use status code dimensions
+  - Instrumenting
+    - We don't need quantiles, so "Summary" should do
+    - "request_latency_seconds" looks good (https://prometheus.github.io/client_python/instrumenting/summary/)
+    - Let's see what "Labels" are
+      - https://prometheus.github.io/client_python/instrumenting/labels/
+      - Grouping, exactly what we want
+      - Labels should be added with c.labels(..), example `c.labels('/buckets/<id>', 'GET', 200)
+        [ ] Have to interpolate path and status code
+    - "Real-world example" looks good, probably copy that
+    - But do i need to start a http server? I already have one, right?
+  - Exporting
+    - We are using "flask", so https://prometheus.github.io/client_python/exporting/http/flask/ seems to be all that's needed
+
+### TODO
+
+TIME: 21:38
+
+[ ] Add exporter
+[ ] Add instrumentation
+[ ] Check metrics endpoint when test script runs
