@@ -107,10 +107,19 @@ TIME: 21:27
 
 TIME: 21:38
 
-[ ] Add exporter
+[x] Add exporter
 
 - First add package, version pinning is always good
 - Add exporter and run, http://localhost:5000/metrics already available, YESS
 
 [ ] Add instrumentation
+
+- Okay, start small, let's instrument only the PUT endpoint, copy from docu example, no lables yet
+- Hmm, i just put the "with" at the topmost position in the method, but i don't know whether that actually captures e2e latency. Also, how should i group by status code later?
+- Ok, nothing seems to be exported yet.
+- Ah, i should have set label names, there was an error i did not see
+- Continuing tomorrow
+
+TIME: 21:49
+
 [ ] Check metrics endpoint when test script runs
