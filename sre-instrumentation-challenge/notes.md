@@ -42,6 +42,9 @@ Time: 20:55
 Storage API: http://localhost:5000 (maybe there is an error in the README, http://storage_api:5000 does not look like a valid local URI)
 Grafana Dashboard: http://localhost:3000
 
+added:
+Storage API Metrics: http://localhost:5000/metrics
+
 # Execution
 
 ## Set up Python environment
@@ -105,5 +108,9 @@ TIME: 21:27
 TIME: 21:38
 
 [ ] Add exporter
+
+- First add package, version pinning is always good
+- Add exporter and run, http://localhost:5000/metrics already available, YESS
+
 [ ] Add instrumentation
 [ ] Check metrics endpoint when test script runs
