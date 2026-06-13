@@ -130,4 +130,6 @@ TIME: 10:02
 - Let's check prometheus docu to see how i have to query the endpoint
 - Counter does not increment, something is still wrong
 - Browser caching was the problem. will now check metrics using CURL, too
-- an
+
+- Now let's implement it the way we originally wanted.
+- Using just one label for now

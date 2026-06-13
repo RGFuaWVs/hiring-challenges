@@ -7,12 +7,16 @@ bucket_blueprint = Blueprint("zones", __name__)
 
 data: Dict[str, bytes] = {}
 
-# Create a metric to track time spent and requests made.
-REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+REQUEST_TIME = Summary(
+    'request_processing_seconds',
+    'Time spent processing request',
+    labelnames=['path'],
+    namespace='storage_api',
+)
 
 # Decorate function with metric.
 @bucket_blueprint.route("/buckets/<id>")
-@REQUEST_TIME.time()
+@REQUEST_TIME.labels(path="/buckets/<id>").time()
 def get_bucket(id: str) -> ResponseReturnValue:
     if id in data.keys():
         return data.get(id), 200, {"Content-Type": "application/octet-stream"}
