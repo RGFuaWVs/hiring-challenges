@@ -26,7 +26,7 @@ Starting Time: 20:39
    3. Test instrumentation
 4. Dockerfile (maybe skip, no experience)
    1. Check documentation for dockerfile for python app
-   2. Create dockerfile (run on correct path)
+   2. Create dockerfile (run on correct path) [TODO: Use separate builder/runner image]
    3. Add to docker compose
 5. Grafana Dashboard
    1. Checkout localhost:3000 to see what's happening
@@ -223,3 +223,13 @@ TIME: 13:23
 TIME: 13:53
 
 - Ok, first version that works!
+- Now let's expose it on another port
+- Commands
+  - docker build -t storage_api:latest .
+  - docker run -p 8000:5000 storage_api:latest
+
+- Let's improve the image now. I think host and port are not required in CMD, there are defaults in the code
+- No, let's improve the image later, now i want to put it together and integrate!
+
+- So theoretically, all that is needed now is to add my image to docker compose and spin it all up
+- Yayers, that seems to work now. Now i'll need to figure out how to change the host name
