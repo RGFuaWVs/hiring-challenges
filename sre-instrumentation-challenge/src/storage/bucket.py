@@ -6,26 +6,18 @@ from prometheus_client import Summary
 bucket_blueprint = Blueprint("zones", __name__)
 
 data: Dict[str, bytes] = {}
-TASK_DURATION = Summary(
-    'task_duration_seconds',
-    'Time spent processing background tasks',
-    labelnames=[],
-    namespace='storage_api',
-)
 
 # Create a metric to track time spent and requests made.
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 
 # Decorate function with metric.
-@REQUEST_TIME.time()
 @bucket_blueprint.route("/buckets/<id>")
+@REQUEST_TIME.time()
 def get_bucket(id: str) -> ResponseReturnValue:
-    with TASK_DURATION.labels().time():
-        if id in data.keys():
-            return data.get(id), 200, {"Content-Type": "application/octet-stream"}
+    if id in data.keys():
+        return data.get(id), 200, {"Content-Type": "application/octet-stream"}
 
-        return jsonify({"error": "not found"}), 404, {"Content-Type": "application/json"}
-    pass
+    return jsonify({"error": "not found"}), 404, {"Content-Type": "application/json"}
 
 
 @bucket_blueprint.route("/buckets/<id>", methods=["PUT"])

@@ -122,4 +122,12 @@ TIME: 21:38
 
 TIME: 21:49
 
-[ ] Check metrics endpoint when test script runs
+TIME: 10:02
+
+- Continuing, working on train from Zurich to Cologne now
+- Try instrumentation using decorator as in minimal example
+- Type is there, but count and sum are 0
+- Let's check prometheus docu to see how i have to query the endpoint
+- Counter does not increment, something is still wrong
+- Browser caching was the problem. will now check metrics using CURL, too
+- an
