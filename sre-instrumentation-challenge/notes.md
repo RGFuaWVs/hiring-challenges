@@ -133,3 +133,15 @@ TIME: 10:02
 
 - Now let's implement it the way we originally wanted.
 - Using just one label for now
+
+- Great, now drop the annotation and do it like in the documented "real-world-example"
+- Cool, that works, too. Now let's add the other lables to the Get-Endpoint
+- How can i add different labels for different paths of the code? Let's just try something
+- Trying to find out how exactly .time() works to ensure that I am measuring the right thing
+- Ask ChatGPT how to apply label for different status codes. Internet too slow
+
+- Let's skip the status code for now, add remaining labels and continue
+
+TIME: 10:36
+
+- Sanity check on metrics endpoint looks good, commit and continue. Figure out how to add status code when better internet available

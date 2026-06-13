@@ -10,31 +10,36 @@ data: Dict[str, bytes] = {}
 REQUEST_TIME = Summary(
     'request_processing_seconds',
     'Time spent processing request',
-    labelnames=['path'],
+    labelnames=['path', 'method'],
     namespace='storage_api',
 )
 
 # Decorate function with metric.
 @bucket_blueprint.route("/buckets/<id>")
-@REQUEST_TIME.labels(path="/buckets/<id>").time()
 def get_bucket(id: str) -> ResponseReturnValue:
-    if id in data.keys():
-        return data.get(id), 200, {"Content-Type": "application/octet-stream"}
+    with REQUEST_TIME.labels(path=f"/buckets/{id}", method="GET").time():
+        if id in data.keys():
+            return data.get(id), 200, {"Content-Type": "application/octet-stream"}
 
-    return jsonify({"error": "not found"}), 404, {"Content-Type": "application/json"}
+        return jsonify({"error": "not found"}), 404, {"Content-Type": "application/json"}
+    pass
 
 
 @bucket_blueprint.route("/buckets/<id>", methods=["PUT"])
 def put_bucket(id: str) -> ResponseReturnValue:
-    data[id] = request.get_data()
+    with REQUEST_TIME.labels(path=f"/buckets/{id}", method="PUT").time():
+        data[id] = request.get_data()
 
-    return "", 200
+        return "", 200
+    pass
 
 
 @bucket_blueprint.route("/buckets/<id>", methods=["DELETE"])
 def delete_bucket(id: str) -> ResponseReturnValue:
-    if id in data.keys():
-        data.pop(id, None)
-        return "", 500
+    with REQUEST_TIME.labels(path=f"/buckets/{id}", method="DELETE").time():
+        if id in data.keys():
+            data.pop(id, None)
+            return "", 500
 
-    return jsonify({"error": "bad request"}), 400, {"Content-Type": "application/json"}
+        return jsonify({"error": "bad request"}), 400, {"Content-Type": "application/json"}
+    pass
