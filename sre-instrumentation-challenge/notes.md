@@ -19,7 +19,7 @@ Starting Time: 20:39
       1. Request duration in seconds. Dimensions:
       - Path
       - Method (I suppose HTTP method)
-      - Status Code
+      - Status Code (TODO)
       1. Labels from example image:
          1. Average HTTP Request Duration - Value
          2. HTTP Status Codes - 200, 404, 500
@@ -44,6 +44,7 @@ Grafana Dashboard: http://localhost:3000
 
 added:
 Storage API Metrics: http://localhost:5000/metrics
+Prometheus Server: http://localhost:9090
 
 # Execution
 
@@ -145,3 +146,80 @@ TIME: 10:02
 TIME: 10:36
 
 - Sanity check on metrics endpoint looks good, commit and continue. Figure out how to add status code when better internet available
+
+## Grafana
+
+- Skipping dockerization of storage API for now, try to spin up existing services in docker-compose.yml and integrate them with locally run storage api
+- Internet very slow at pulling images, but at least i'm still in Switzerland
+- Moving from WifiOnICE to 5G Hotspot
+
+- Ok seems like we're up, let's check if we can see something in the browser
+- Good, grafana runs, i can log in and change the admin password (although then it probably won't work on the next startup)
+- Ok, so the port of the storage api, containerized or not, is 5000. I should be able to check whether the prometheus server could has discovered the API.
+- Let's first check the prometheus server on 9090
+- On "targets" tab it says that the storage api is down. So it should in fact run under http://storage_api:5000, that was no error. I'll change the scrape config and change it back if i can get the dockerfile to work.
+- Ok, if i wanted to do it locally, i'd have to add a DNS resolver entry. I'll try that once, if it does not work i'll start working on the dockerfile.
+- Ok, that does not work out of the box. Revert the DNS resolver entry, and get started on the dockerfile
+
+## Dockerfile
+
+TIME: 11:05
+
+- Again, let's take 10 minutes to read documentation about how to containerize a python application (https://docs.docker.com/guides/python/containerize/)
+- Okay, let's just do it exactly as the docs say
+- Create files. Add redundant requirements.txt so that i don't have to change the dockerfile
+- So docker compose works, but the app cannot be reached on localhost:8000.
+- I think I got something wrong with the networking setup.
+
+- Take a break, check how much time remains, and plan what to do.
+  TIME: 11:24
+- So far, I've spent 1h + 1.5h = 2.5h on the task. The instrumentation part is ok, and I can probably complete it. Docker is harder, because I have used it a lot, but never actually had to create Dockerfiles. But as soon as the services are up, it should be easy to hook up Grafana and create a Dashboard and have something to show
+- I think it would make sense to spend at least 1.5h on Docker fundamentals to be able to debug here. I will take a break, grab a coffee, and then look for a Docker setup with a Python application that I can run and compare to the challenge here.
+
+## Docker Fundamentals
+
+TIME: 11:48
+
+- Let's spend at max until 14h to learn more. (https://docs.docker.com/get-started/)
+
+Priorities:
+
+1. Docker Compose (https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-docker-compose/)
+2. Building Images
+
+### Building Images
+
+- Writing a dockerfile (https://docs.docker.com/get-started/docker-concepts/building-images/writing-a-dockerfile/)
+
+- Commands
+  - COPY host-path image-path
+  - RUN (run something in the container)
+  - ENV: Sets environment variable the container will use
+  - EXPOSE: Expose a port
+  - CMD: Default command container using this image will run (maybe startup app?)
+
+- Best practices (https://docs.docker.com/build/building/best-practices/)
+
+### Multi-stage builds
+
+- Stages (could be leveraged here for dev and prod!)
+- "--from" can be used to copy between stages. Looks a bit like azure pipelines and build agents. So this means i can build (or make) the app in one image, and copy the artifacts and run it in another, lighter image. Cool!
+
+### Running containers
+
+- HOST_PORT:CONTAINER_PORT (like reading, from left to right)
+- Here I'll probably need more detail, because that is why it didn't work before (https://docs.docker.com/engine/network/#published-ports)
+- Overriding container defaults
+- Multi-container applications (https://docs.docker.com/get-started/docker-concepts/running-containers/multi-container-applications/)
+
+Okay, i think i got an overview and can now start containerizing the storage API
+
+TIME: 12:19
+
+## Dockerfile 2nd attempt
+
+TIME: 13:23
+
+TIME: 13:53
+
+- Ok, first version that works!
