@@ -17,7 +17,8 @@
 >
 > 1. Run `docker compose up`
 > 2. Run `scripts/generate_traffic.sh`
-> 3. Refresh dashboards in on Grafana Frontend (http://localhost:3000/)
+> 3. Log in to Grafana under (http://localhost:3000/) with 'admin' as username and password. Skip password change.
+> 4. Go to Dashboards > Services > Storage API and refresh dashboards
 
 Your goal is to add Prometheus instrumentation to our in-memory Storage API which is written in Python (see `src/README.md` for more details).
 
