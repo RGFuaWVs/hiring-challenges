@@ -262,3 +262,17 @@ TIME: 11:46
 - First read up how exactly context managers in Python work
 - Ok, since i cannot add labels dynamically, i'll try timing the code explicitly and then use "observe" to capture the metric. It looks a bit like a hack to me, but I can improve that later.
 - Checked how time() is implemented. It also uses time.perf_counter, so it should be ok
+- Docker compose up did not catch changes in storage API. Discovered 'build' command
+
+TIME: 12:23
+
+Plan:
+
+1. Create dashboard with status codes [x]
+2. Figure out how to persist the dashboards, so that they are sourced when the build is started from scratch
+3. Extend README with run instructions
+4. Clean up notes
+
+- There is provisioning documentation for Grafana, let's see (https://grafana.com/tutorials/provision-dashboards-and-data-sources/)
+- Cool, provisioning seems to work, so I think let's wrap it up here and clean everything up.
+- I skip the kubernetes setup due to lack of time.
