@@ -2,6 +2,17 @@
 
 > Solution attempt by **Daniel Steinmann**. Steps and decisions taken are documented here using Markdown blockquotes (like this one). A detailed, unfiltered worklog is provided in `notes.md`. I planned to also dockerize the traffic generator, but skipped it due to lack of time.
 >
+> - I made sure to keep track of time very precisely (see `notes.md`)
+> - I worked almost exclusively with the official documentation, limiting AI usage to an absolute minimum. I leverage AI in technologies that I am an expert in, but for new tools I prefer to have a deep-dive first.
+> - Timetable (Total: 5.5h)
+>   - Planning and setup (30m)
+>   - Exporter and minimal instrumentation (1h)
+>   - Trying integration without dockerization (30m)
+>   - Refresh Docker fundamentals (1h)
+>   - Write and test dockerfile, add to docker-compose (1h)
+>   - Integrate, test and create dashboards (1h)
+>   - Extend README and documentation (30m)
+>
 > **Review instructions**
 >
 > 1. Run `docker compose up`
@@ -11,9 +22,6 @@
 Your goal is to add Prometheus instrumentation to our in-memory Storage API which is written in Python (see `src/README.md` for more details).
 
 **Please invest no more than 5 to 8 hours.** If you cannot complete the task in this time frame, document where you got stuck so we can use this as a basis for discussion for your next interview.
-
-> - I made sure to keep track of time very precisely (see `notes.md`)
-> - I worked almost exclusively with the official documentation, limiting AI usage to an absolute minimum. I leverage AI in technologies that I am an expert in, but for new tools I prefer to have a deep-dive first.
 
 ## Your mission, should you choose to accept it:
 
