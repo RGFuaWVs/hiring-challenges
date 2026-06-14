@@ -233,3 +233,32 @@ TIME: 13:53
 
 - So theoretically, all that is needed now is to add my image to docker compose and spin it all up
 - Yayers, that seems to work now. Now i'll need to figure out how to change the host name
+- Ok, from inside the docker network, storage_api is resolved. I don't exactly know why, but that's great, i can continue.
+
+## Grafana 2nd attempt
+
+- First, try and get some data into the metrics endpoint again.
+- Cool, i can expose both 8000 and 5000, so i should be able to run the script now
+- How about adding the generate traffic script as a docker-container, too?
+- Aha, in prometheus i can already graph some metrics, let's see whether they check out
+- That works, let's move on to Grafana then
+
+- Ok, not so easy, let's start reading Grafana Documentation to figure out how to average
+- avg(rate(storage_api_request_processing_seconds_sum{}[30s]))
+- Now let's adjust the axis
+
+- Ok, done for today, will finish when on way home
+  TIME: 14:43
+
+TIME: 11:08
+
+- No WiFi right now, so i'll start figuring out what i can about dashboarding in Grafana
+- Back online, these docs seem relevant: https://grafana.com/docs/grafana/latest/datasources/prometheus/
+- Average request duration over all endpoint created
+
+TIME: 11:46
+
+- How can I add the status code as a label? It is only known during the request, so there has to be a way to do this dynamically. Let's see whether we can find something in the docs.
+- First read up how exactly context managers in Python work
+- Ok, since i cannot add labels dynamically, i'll try timing the code explicitly and then use "observe" to capture the metric. It looks a bit like a hack to me, but I can improve that later.
+- Checked how time() is implemented. It also uses time.perf_counter, so it should be ok
